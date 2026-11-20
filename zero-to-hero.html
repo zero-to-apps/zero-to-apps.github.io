@@ -112,6 +112,11 @@
 
   .day.tok::after { content: ''; position: absolute; bottom: 3px; width: 4px; height: 4px; border-radius: 50%; background: #f5a524; }
   #shareBar { display: none; } body.hist #shareBar { display: block; } body.hist > main { display: none; } body.ob > #shareBar { display: none !important; }
+  #stats, #detail { display: none; }
+  .hfrow { display: flex; gap: 12px; align-items: stretch; margin-bottom: 12px; }
+  .thumb { flex: none; width: 76px; height: 95px; padding: 0; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,138,69,.6); background: #000; }
+  .thumb img { width: 100%; height: 100%; display: block; }
+  .hq { border-radius: 12px; flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 8px; text-align: center; }
   .shbtn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; height: 50px; border-radius: 999px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,138,69,.6); color: #ff8a45; font-weight: 800; font-size: 1.05rem; }
   body.ob > header, body.ob > #panel, body.ob > main { display: none; }
   #ob { display: none; flex: 1; min-height: 0; overflow-y: auto; width: 100%; max-width: 560px; margin: 0 auto; padding: max(env(safe-area-inset-top),20px) 16px max(env(safe-area-inset-bottom),24px); }
@@ -557,7 +562,13 @@
   }
 
   const SHARE_ICON = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>';
-  function renderShare() { const b = $('shareBar'); b.innerHTML = shareData() ? `<button class="shbtn" data-share>${SHARE_ICON}<span>${T.c.shBtn}</span></button>` : ''; }
+  function renderShare() {
+    const b = $('shareBar'), d = shareData(); if (!d) { b.innerHTML = ''; return; }
+    let th = ''; try { const cv = drawCard(d), t = document.createElement('canvas'); t.width = 216; t.height = 270; t.getContext('2d').drawImage(cv, 0, 0, 216, 270); th = t.toDataURL('image/jpeg', .85); } catch (e) {}
+    const done = S.contract && rec(sel || today).done;
+    b.innerHTML = `<div class="hfrow">${th ? `<button class="thumb" data-prev aria-label="${T.c.shBtn}"><img src="${th}" alt=""></button>` : ''}${done ? `<div class="quest hq"><div class="glow text-xl font-black tracking-widest">QUEST COMPLETE</div><div class="mt-1 text-sm">${T.qc}</div></div>` : ''}</div>
+      <button class="shbtn" data-share>${SHARE_ICON}<span>${T.c.shBtn}</span></button>`;
+  }
   function shareData() {
     const c = S.contract, L = S.lifetime || { totalDays: 0, bestStreak: 0 };
     if (c && S.status === 'active') return { st: 'active', n: doneCount(), total: c.days, mode: c.mode, all: L.totalDays + doneCount(), best: Math.max(L.bestStreak, best()) };
@@ -589,9 +600,13 @@
     const cv = drawCard(d), blob = await new Promise(r => cv.toBlob(r, 'image/png'));
     try { const f = new File([blob], 'zero-to-hero.png', { type: 'image/png' });
       if (navigator.canShare && navigator.canShare({ files: [f] })) { await navigator.share({ files: [f] }); return; } } catch (e) { if (e && e.name === 'AbortError') return; }
-    openModal(`<img src="${cv.toDataURL('image/png')}" alt="" style="display:block;max-width:100%;max-height:62dvh;margin:0 auto;border-radius:14px"><p class="sub" style="margin:10px 0 0;text-align:center">${T.c.shSave}</p><button class="btn alt" data-m="ok">${T.c.ok}</button>`);
+    openPreview(false, cv);
   }
-  document.addEventListener('click', e => { if (e.target.closest('[data-share]')) doShare(); });
+  function openPreview(withShare, cv) {
+    cv = cv || drawCard(shareData());
+    openModal(`<img src="${cv.toDataURL('image/png')}" alt="" style="display:block;max-width:100%;max-height:58dvh;margin:0 auto;border-radius:14px">${withShare ? `<button class="shbtn" data-share style="margin-top:12px">${SHARE_ICON}<span>${T.c.shBtn}</span></button>` : `<p class="sub" style="margin:10px 0 0;text-align:center">${T.c.shSave}</p>`}<button class="btn alt" data-m="ok">${T.c.ok}</button>`);
+  }
+  document.addEventListener('click', e => { if (e.target.closest('[data-share]')) doShare(); else if (e.target.closest('[data-prev]')) openPreview(true); });
   function renderChal() {
     let h = '', c = T.c;
     renderShare();
@@ -683,7 +698,7 @@
   $('cal').addEventListener('click', e => {
     const b = e.target.closest('[data-k]');
     if (!b || b.disabled) return;
-    sel = b.dataset.k; renderHistory();
+    sel = b.dataset.k; renderHistory(); renderShare();
   });
   $('prevM').addEventListener('click', () => { viewIdx--; renderHistory(); });
   $('nextM').addEventListener('click', () => { viewIdx++; renderHistory(); });
