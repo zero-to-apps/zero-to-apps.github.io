@@ -111,6 +111,8 @@
   .lang.on { border-color:#ff7a30; background:rgba(255,122,48,.15); color:#ffb27f; font-weight:700; }
 
   .day.tok::after { content: ''; position: absolute; bottom: 3px; width: 4px; height: 4px; border-radius: 50%; background: #f5a524; }
+  #shareBar { display: none; } body.hist #shareBar { display: block; } body.hist > main { display: none; } body.ob > #shareBar { display: none !important; }
+  .shbtn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; height: 50px; border-radius: 999px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,138,69,.6); color: #ff8a45; font-weight: 800; font-size: 1.05rem; }
   body.ob > header, body.ob > #panel, body.ob > main { display: none; }
   #ob { display: none; flex: 1; min-height: 0; overflow-y: auto; width: 100%; max-width: 560px; margin: 0 auto; padding: max(env(safe-area-inset-top),20px) 16px max(env(safe-area-inset-bottom),24px); }
   body.ob #ob { display: block; }
@@ -176,6 +178,8 @@
   <div id="detail" class="mt-2"></div>
 </section>
 
+<div id="shareBar" class="mx-4"></div>
+
 <main class="flex-1 min-h-0 px-4" style="padding-bottom:max(env(safe-area-inset-bottom),16px)">
   <div id="card" class="flex h-full flex-col">
     <div class="flex items-baseline justify-between">
@@ -239,7 +243,7 @@
         useTok: m => `使用緩衝令（用掉 ${m} 張）`, accept: '不使用，接受失敗',
         legend: '傳奇完賽', legendS: (mo, d) => `${mo}・${d} 天，全部完成。`, life: (a, b) => `累計 ${a} 天・最長連續 ${b} 天`, newRun: '開始新挑戰',
         msT: ms => `已完成 ${ms} 天`, msQ: r => `要延續剩下的 ${r} 天嗎？`, msGo: '繼續挑戰', msStop: ms => `功成身退，領取耐力紀念章（${ms} 天）`,
-        shBtn: '📤 分享戰績', shHold: '已堅持', shU: '天', shSub: (mo, d) => `${mo}・${d} 天挑戰`, shDone: '🏅 挑戰完成', shFail: n => `🪦 倒在第 ${n} 天`, shLife: (t, b) => `累計 ${t} 天　最長連續 ${b} 天`, shSave: '長按圖片儲存，再分享到朋友圈', chL: '挑戰', chRow: (mo, d, s) => `${mo}・${d} 天・開始 ${s}`, abBtn: '放棄挑戰', hof: '榮譽殿堂', hofMax: n => `最高堅持 ${n} 天`,
+        shBtn: '分享戰績', shHold: '已堅持', shU: '天', shSub: (mo, d) => `${mo}・${d} 天挑戰`, shDone: '🏅 挑戰完成', shFail: n => `🪦 倒在第 ${n} 天`, shLife: (t, b) => `累計 ${t} 天　最長連續 ${b} 天`, shSave: '長按圖片儲存，再分享到朋友圈', chL: '挑戰', chRow: (mo, d, s) => `${mo}・${d} 天・開始 ${s}`, abBtn: '放棄挑戰', hof: '榮譽殿堂', hofMax: n => `最高堅持 ${n} 天`,
         meta: (mo, d, t, tp, r) => `${mo}・${d} 天　緩衝令 ${t}/${tp}　剩餘 ${r} 天`,
         abT: '確定放棄挑戰？', abS: '進度會封存，依已完成的階段發放紀念章，然後回到選擇畫面。', abYes: '確定放棄', abNo: '再想想',
         rbT: '無法打卡', rbS: '偵測到手機時間被調回，請改回正確時間。', ok: '知道了' } },
@@ -266,7 +270,7 @@
         useTok: m => `使用缓冲令（用掉 ${m} 张）`, accept: '不使用，接受失败',
         legend: '传奇完赛', legendS: (mo, d) => `${mo}・${d} 天，全部完成。`, life: (a, b) => `累计 ${a} 天・最长连续 ${b} 天`, newRun: '开始新挑战',
         msT: ms => `已完成 ${ms} 天`, msQ: r => `要延续剩下的 ${r} 天吗？`, msGo: '继续挑战', msStop: ms => `功成身退，领取耐力纪念章（${ms} 天）`,
-        shBtn: '📤 分享战绩', shHold: '已坚持', shU: '天', shSub: (mo, d) => `${mo}・${d} 天挑战`, shDone: '🏅 挑战完成', shFail: n => `🪦 倒在第 ${n} 天`, shLife: (t, b) => `累计 ${t} 天　最长连续 ${b} 天`, shSave: '长按图片保存，再分享到朋友圈', chL: '挑战', chRow: (mo, d, s) => `${mo}・${d} 天・开始 ${s}`, abBtn: '放弃挑战', hof: '荣誉殿堂', hofMax: n => `最高坚持 ${n} 天`,
+        shBtn: '分享战绩', shHold: '已坚持', shU: '天', shSub: (mo, d) => `${mo}・${d} 天挑战`, shDone: '🏅 挑战完成', shFail: n => `🪦 倒在第 ${n} 天`, shLife: (t, b) => `累计 ${t} 天　最长连续 ${b} 天`, shSave: '长按图片保存，再分享到朋友圈', chL: '挑战', chRow: (mo, d, s) => `${mo}・${d} 天・开始 ${s}`, abBtn: '放弃挑战', hof: '荣誉殿堂', hofMax: n => `最高坚持 ${n} 天`,
         meta: (mo, d, t, tp, r) => `${mo}・${d} 天　缓冲令 ${t}/${tp}　剩余 ${r} 天`,
         abT: '确定放弃挑战？', abS: '进度会封存，按已完成的阶段发放纪念章，然后回到选择画面。', abYes: '确定放弃', abNo: '再想想',
         rbT: '无法打卡', rbS: '检测到手机时间被调回，请改回正确时间。', ok: '知道了' } },
@@ -293,7 +297,7 @@
         useTok: m => `Use tokens (spend ${m})`, accept: 'No, accept failure',
         legend: 'Legend', legendS: (mo, d) => `${mo} · ${d} days, all done.`, life: (a, b) => `Total ${a} days · best streak ${b} days`, newRun: 'Start a new challenge',
         msT: ms => `${ms} days done`, msQ: r => `Continue the remaining ${r} days?`, msGo: 'Keep going', msStop: ms => `Retire with honor, claim the Endurance badge (${ms} days)`,
-        shBtn: '📤 Share progress', shHold: 'Held for', shU: 'days', shSub: (mo, d) => `${mo} · ${d}-day challenge`, shDone: '🏅 Challenge complete', shFail: n => `🪦 Fell on day ${n}`, shLife: (t, b) => `${t} days total · best streak ${b}`, shSave: 'Press and hold the image to save it', chL: 'Challenge', chRow: (mo, d, s) => `${mo} · ${d} days · started ${s}`, abBtn: 'Abandon challenge', hof: 'Hall of Fame', hofMax: n => `Longest hold ${n} days`,
+        shBtn: 'Share progress', shHold: 'Held for', shU: 'days', shSub: (mo, d) => `${mo} · ${d}-day challenge`, shDone: '🏅 Challenge complete', shFail: n => `🪦 Fell on day ${n}`, shLife: (t, b) => `${t} days total · best streak ${b}`, shSave: 'Press and hold the image to save it', chL: 'Challenge', chRow: (mo, d, s) => `${mo} · ${d} days · started ${s}`, abBtn: 'Abandon challenge', hof: 'Hall of Fame', hofMax: n => `Longest hold ${n} days`,
         meta: (mo, d, t, tp, r) => `${mo} · ${d} days　Tokens ${t}/${tp}　${r} left`,
         abT: 'Abandon the challenge?', abS: 'Your run is archived with a badge for the stage you reached, then you return to selection.', abYes: 'Abandon', abNo: 'Not yet',
         rbT: 'Cannot check in', rbS: 'Your phone clock was set back. Please restore the correct time.', ok: 'OK' } }
@@ -425,7 +429,7 @@
     }).join('');
 
     $('foot').innerHTML = r.done
-      ? `<div class="quest rounded-xl py-4 text-center"><div class="glow text-2xl font-black tracking-widest">QUEST COMPLETE</div><div class="mt-1 text-sm">${T.qc}</div></div><button class="btn" data-share style="display:block;width:100%;height:46px;margin-top:12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,138,69,.6);color:#ff8a45;font-weight:800">${T.c.shBtn}</button>`
+      ? `<div class="quest rounded-xl py-4 text-center"><div class="glow text-2xl font-black tracking-widest">QUEST COMPLETE</div><div class="mt-1 text-sm">${T.qc}</div></div>`
       : `<div class="py-3 text-center text-sm opacity-60">${T.hint}</div>`;
 
     renderHistory();
@@ -542,7 +546,7 @@
     const a = S.archive[S.archive.length - 1]; document.body.classList.add('ob');
     const c = T.c;
     $ob.innerHTML = `<div style="text-align:center;padding-top:10dvh"><div class="big">🏆</div><h1>${c.legend}</h1><p class="sub">${c.legendS(c.mn[a.mode], a.days)}</p>
-      <div class="card pv"><div>${badgeText(a)}</div><div>${c.life(S.lifetime.totalDays, S.lifetime.bestStreak)}</div></div><button class="btn" data-share>${c.shBtn}</button><button class="btn alt" data-act="newrun">${c.newRun}</button></div>`;
+      <div class="card pv"><div>${badgeText(a)}</div><div>${c.life(S.lifetime.totalDays, S.lifetime.bestStreak)}</div></div><button class="btn" data-share style="display:flex;align-items:center;justify-content:center;gap:8px">${SHARE_ICON}<span>${c.shBtn}</span></button><button class="btn alt" data-act="newrun">${c.newRun}</button></div>`;
   }
   const openModal = h => { $('modalBody').innerHTML = h; $('modal').classList.add('show'); };
   function maybeMilestone() {
@@ -552,7 +556,8 @@
         <button class="btn" data-m="go">${T.c.msGo}</button><button class="btn alt" data-m="stop">${T.c.msStop(ms)}</button>`);
   }
 
-  const SHBTN_SET = () => `<button class="lang" data-share style="margin-top:16px;color:#ff8a45"><span>${T.c.shBtn}</span><span></span></button>`;
+  const SHARE_ICON = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>';
+  function renderShare() { const b = $('shareBar'); b.innerHTML = shareData() ? `<button class="shbtn" data-share>${SHARE_ICON}<span>${T.c.shBtn}</span></button>` : ''; }
   function shareData() {
     const c = S.contract, L = S.lifetime || { totalDays: 0, bestStreak: 0 };
     if (c && S.status === 'active') return { st: 'active', n: doneCount(), total: c.days, mode: c.mode, all: L.totalDays + doneCount(), best: Math.max(L.bestStreak, best()) };
@@ -589,7 +594,7 @@
   document.addEventListener('click', e => { if (e.target.closest('[data-share]')) doShare(); });
   function renderChal() {
     let h = '', c = T.c;
-    if (S.contract || S.archive.length) h += SHBTN_SET();
+    renderShare();
     if (S.contract && S.status === 'active') h += `<div class="lbl" style="margin-top:16px">${c.chL}</div><div class="row2">${c.chRow(c.mn[S.contract.mode], S.contract.days, S.start)}</div><button class="lang" data-ab="1" style="color:#ff6b6b"><span>${c.abBtn}</span><span></span></button>`;
     if (S.archive.length) h += `<div class="lbl" style="margin-top:16px">${c.hof}</div><div class="row2" style="color:#ff8a45;font-weight:700">${c.hofMax(Math.max(0, ...S.archive.map(a => a.daysDone || 0), S.status === 'active' ? doneCount() : 0))}</div>` + S.archive.slice().reverse().map(a => `<div class="row2">${badgeText(a)}</div>`).join('');
     $('chal').innerHTML = h;
@@ -671,6 +676,7 @@
   $('dateBtn').addEventListener('click', () => {
     const p = $('panel'), open = p.classList.toggle('hidden') === false;
     if (open) { viewIdx = null; sel = today; renderHistory(); }
+    document.body.classList.toggle('hist', open); if (open) renderShare();
     $('arrow').textContent = open ? '▴' : '▾';
     $('dateBtn').setAttribute('aria-expanded', open);
   });
