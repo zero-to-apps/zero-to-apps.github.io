@@ -113,6 +113,7 @@
   .day.tok::after { content: ''; position: absolute; bottom: 3px; width: 4px; height: 4px; border-radius: 50%; background: #f5a524; }
   #shareBar { display: none; } body.hist #shareBar { display: block; } body.hist > main { display: none; } body.ob > #shareBar { display: none !important; }
   #stats, #detail { display: none; }
+  #dayTxt, #dateBtn { white-space: nowrap; } #dayTxt { font-size: clamp(1.4rem, 7vw, 1.875rem); } #dateBtn .text-11 { font-size: 10.5px; }
   .hfrow { display: flex; gap: 12px; align-items: stretch; margin-bottom: 12px; }
   .thumb { flex: none; width: 76px; height: 95px; padding: 0; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,138,69,.6); background: #000; }
   .thumb img { width: 100%; height: 100%; display: block; }
@@ -231,13 +232,13 @@
       done: '已達成', now: '進行中', miss: '未達成', set: (n, s) => `${n} 第${s}組`,
       one: '完成', nextSet: '完成一組', full: '✓ 已完成', qc: '任務完成　今日已鎖定', hint: '全部完成後，今日任務將鎖定',
       free: '自由安排', unit: { rep: '次', sec: '秒' }, setT: '設定', langL: '語言', close: '關閉',
-      plans: { 1: '上肢・推', 2: '下肢・腿', 3: '背部・核心', 4: '恢復日' },
-      ex: { pu: '伏地挺身', cr: '捲腹', sq: '深蹲', bg: '保加利亞分腿蹲', co: '核心自由訓練', bk: '背肌', sp: '分腿蹲（每側）', su: '超人式', pl: '平板支撐', st: '全身伸展' },
-      c: { mn: { awaken: '覺醒', limiter: '標準', hell: '地獄' }, mt: { awaken: '零基礎入門，動作輕量', limiter: '標準預設徒手菜單', hell: '進階高強度，組數加倍' },
+      plans: { 1: '上肢・推', 2: '下肢・腿', 3: '背部・核心', 4: '恢復日・伸展' },
+      ex: { pu: '伏地挺身', cr: '捲腹', sq: '深蹲', bg: '保加利亞分腿蹲（左右各 2 組）', dd: '死蟲式（左右交替）', bd: '鳥狗式（左右交替）', dm: '鑽石伏地挺身', co: '核心自由訓練', bk: '背肌', sp: '分腿蹲（每側）', su: '超人式', pl: '平板支撐', st: '全身伸展' },
+      c: { mn: { awaken: '覺醒', limiter: '標準', hell: '地獄' }, mt: { awaken: '零基礎入門，動作輕量', limiter: '標準預設徒手菜單', hell: '進階高強度，動作更難' },
         d: '天', stDone: '已完成', stRelief: '功成身退', stFail: '失敗', stAb: '放棄',
         hline: (ico, st, mo, days, got) => `${ico} ${st}　${mo}・${days} 天　堅持 ${got} 天`,
         o1t: '選擇難度', o1s: '可以先預覽，簽約後永久鎖死。', kept: '進度已歸零，但這些會留下', tot: n => `累計完成 <b>${n}</b> 天`, bst: n => `最長連續 <b>${n}</b> 天`,
-        next: '下一步', back: '← 回上一步', day4: '第 4 天', restTxt: '3 分鐘全身伸展，點擊打卡',
+        next: '下一步', back: '← 回上一步', day4: '第 4 天', restTxt: '全身伸展 3 分鐘',
         o2t: '挑戰天數', o2s: mo => `${mo}模式。天數包含恢復日。`, restN: n => `約 <b>${n}</b> 個恢復日`, tokN: (n, t) => `緩衝令共 <b>${n}</b> 張（每 30 天 ${t} 張）`,
         o3t: '挑戰合約', o3s: (mo, d) => `${mo} × ${d} 天`,
         rules: t => ['啟動後，不能更改難度，也不能暫停。', '當天 23:59 前沒完成打卡，挑戰失敗，進度歸零。', `不能補簽；只有緩衝令可以把當天順延 24 小時，每 30 天 ${t} 張。`, '身體不適或疼痛請立即停止。本 App 不提供醫療建議。'],
@@ -258,13 +259,13 @@
       done: '已达成', now: '进行中', miss: '未达成', set: (n, s) => `${n} 第${s}组`,
       one: '完成', nextSet: '完成一组', full: '✓ 已完成', qc: '任务完成　今日已锁定', hint: '全部完成后，今日任务将锁定',
       free: '自由安排', unit: { rep: '次', sec: '秒' }, setT: '设置', langL: '语言', close: '关闭',
-      plans: { 1: '上肢·推', 2: '下肢·腿', 3: '背部·核心', 4: '恢复日' },
-      ex: { pu: '俯卧撑', cr: '卷腹', sq: '深蹲', bg: '保加利亚分腿蹲', co: '核心自由训练', bk: '背肌', sp: '分腿蹲（每侧）', su: '超人式', pl: '平板支撑', st: '全身拉伸' },
-      c: { mn: { awaken: '觉醒', limiter: '标准', hell: '地狱' }, mt: { awaken: '零基础入门，动作轻量', limiter: '标准预设徒手菜单', hell: '进阶高强度，组数加倍' },
+      plans: { 1: '上肢·推', 2: '下肢·腿', 3: '背部·核心', 4: '恢复日·拉伸' },
+      ex: { pu: '俯卧撑', cr: '卷腹', sq: '深蹲', bg: '保加利亚分腿蹲（左右各 2 组）', dd: '死虫式（左右交替）', bd: '鸟狗式（左右交替）', dm: '钻石俯卧撑', co: '核心自由训练', bk: '背肌', sp: '分腿蹲（每侧）', su: '超人式', pl: '平板支撑', st: '全身拉伸' },
+      c: { mn: { awaken: '觉醒', limiter: '标准', hell: '地狱' }, mt: { awaken: '零基础入门，动作轻量', limiter: '标准预设徒手菜单', hell: '进阶高强度，动作更难' },
         d: '天', stDone: '已完成', stRelief: '功成身退', stFail: '失败', stAb: '放弃',
         hline: (ico, st, mo, days, got) => `${ico} ${st}　${mo}・${days} 天　坚持 ${got} 天`,
         o1t: '选择难度', o1s: '可以先预览，签约后永久锁死。', kept: '进度已归零，但这些会留下', tot: n => `累计完成 <b>${n}</b> 天`, bst: n => `最长连续 <b>${n}</b> 天`,
-        next: '下一步', back: '← 回上一步', day4: '第 4 天', restTxt: '3 分钟全身拉伸，点击打卡',
+        next: '下一步', back: '← 回上一步', day4: '第 4 天', restTxt: '全身拉伸 3 分钟',
         o2t: '挑战天数', o2s: mo => `${mo}模式。天数包含恢复日。`, restN: n => `约 <b>${n}</b> 个恢复日`, tokN: (n, t) => `缓冲令共 <b>${n}</b> 张（每 30 天 ${t} 张）`,
         o3t: '挑战合约', o3s: (mo, d) => `${mo} × ${d} 天`,
         rules: t => ['启动后，不能更改难度，也不能暂停。', '当天 23:59 前没完成打卡，挑战失败，进度归零。', `不能补签；只有缓冲令可以把当天顺延 24 小时，每 30 天 ${t} 张。`, '身体不适或疼痛请立即停止。本 App 不提供医疗建议。'],
@@ -285,13 +286,13 @@
       done: 'Done', now: 'In progress', miss: 'Missed', set: (n, s) => `${n} set ${s}`,
       one: 'Done', nextSet: 'Next set', full: '✓ Completed', qc: 'Quest complete · locked for today', hint: 'Finish everything to lock today',
       free: 'Your choice', unit: { rep: ' reps', sec: 's' }, setT: 'Settings', langL: 'Language', close: 'Close',
-      plans: { 1: 'Upper body · Push', 2: 'Lower body · Legs', 3: 'Back · Core', 4: 'Recovery day' },
-      ex: { pu: 'Push-ups', cr: 'Crunches', sq: 'Squats', bg: 'Bulgarian split squats', co: 'Free core workout', bk: 'Back muscles', sp: 'Split squats (each side)', su: 'Superman', pl: 'Plank', st: 'Full-body stretch' },
-      c: { mn: { awaken: 'Awakening', limiter: 'Standard', hell: 'Hell' }, mt: { awaken: 'Beginner friendly, light moves', limiter: 'The standard bodyweight menu', hell: 'Advanced, double the sets' },
+      plans: { 1: 'Upper body · Push', 2: 'Lower body · Legs', 3: 'Back · Core', 4: 'Recovery · Stretch' },
+      ex: { pu: 'Push-ups', cr: 'Crunches', sq: 'Squats', bg: 'Bulgarian split squats (2 sets each side)', dd: 'Dead bug (alternating)', bd: 'Bird dog (alternating)', dm: 'Diamond push-ups', co: 'Free core workout', bk: 'Back muscles', sp: 'Split squats (each side)', su: 'Superman', pl: 'Plank', st: 'Full-body stretch' },
+      c: { mn: { awaken: 'Awakening', limiter: 'Standard', hell: 'Hell' }, mt: { awaken: 'Beginner friendly, light moves', limiter: 'The standard bodyweight menu', hell: 'Advanced, harder moves' },
         d: ' days', stDone: 'Completed', stRelief: 'Retired', stFail: 'Failed', stAb: 'Quit',
         hline: (ico, st, mo, days, got) => `${ico} ${st}　${mo} · ${days} days　held ${got} days`,
         o1t: 'Choose difficulty', o1s: 'Preview freely. Once you sign, it is locked.', kept: 'Progress reset, but these stay', tot: n => `Total done <b>${n}</b> days`, bst: n => `Best streak <b>${n}</b> days`,
-        next: 'Next', back: '← Back', day4: 'Day 4', restTxt: '3-minute full-body stretch, tap to check in',
+        next: 'Next', back: '← Back', day4: 'Day 4', restTxt: 'Full-body stretch, 3 min',
         o2t: 'Challenge length', o2s: mo => `${mo} mode. Days include recovery days.`, restN: n => `About <b>${n}</b> recovery days`, tokN: (n, t) => `<b>${n}</b> buffer tokens in total (${t} per 30 days)`,
         o3t: 'Challenge contract', o3s: (mo, d) => `${mo} × ${d} days`,
         rules: t => ['Once started, you cannot change difficulty or pause.', 'If you do not check in before 23:59, the challenge fails and progress resets.', `No make-ups. Only a buffer token can push a day back by 24 hours, ${t} per 30 days.`, 'Stop at once if you feel unwell or pain. This app gives no medical advice.'],
@@ -336,14 +337,14 @@
   const dayNo = k => Math.max(1, num(k) - num(S.start) + 1 - S.tokensUsed.filter(t => num(t.date) < num(k)).length);
   const TYPES = ['push', 'legs', 'core', 'rest'], UNIT = { su: 'sec', pl: 'sec' };
   const MODES = {
-    awaken:  { name: '覺醒',   tag: '零基礎入門，動作輕量', c: '#f5a524', plan: { push: [['pu',10,3],['cr',15,3]], legs: [['sq',15,3],['sp',10,3]], core: [['su',20,3],['pl',20,3]] } },
-    limiter: { name: '標準', tag: '標準預設徒手菜單',     c: '#ff7a30', plan: { push: [['pu',20,5],['cr',20,5]], legs: [['sq',20,5],['sp',15,4]], core: [['su',30,4],['pl',45,4]] } },
-    hell:    { name: '地獄',   tag: '進階高強度，組數加倍', c: '#e5484d', plan: { push: [['pu',30,8],['cr',40,6]], legs: [['sq',40,6],['sp',25,6]], core: [['su',45,6],['pl',90,5]] } }
+    awaken:  { name: '覺醒', tag: '零基礎入門，動作輕量', c: '#f5a524', plan: { push: [['pu',10,3],['cr',10,3]], legs: [['sq',10,3],['dd',10,3]], core: [['su',20,3],['bd',10,3]], rest: [['pl',30,2]] } },
+    limiter: { name: '標準', tag: '標準預設徒手菜單',     c: '#ff7a30', plan: { push: [['pu',15,4],['cr',20,4]], legs: [['sq',20,3],['dd',12,3]], core: [['su',30,3],['bd',12,3]], rest: [['pl',60,2]] } },
+    hell:    { name: '地獄', tag: '進階高強度，動作更難', c: '#e5484d', plan: { push: [['pu',20,3],['dm',10,3]], legs: [['sq',20,3],['bg',12,4],['dd',15,3]], core: [['su',40,4],['bd',15,4]], rest: [['pl',60,2]] } }
   };
   const planOf = n => {
     const i = ((n - 1) % 4) + 1, t = TYPES[i - 1];
-    const items = t === 'rest' ? [{ id: 'st', t: 0, spec: '3:00', sets: 1 }]
-      : MODES[S.contract.mode].plan[t].map(([id, tg, sets]) => ({ id, t: tg, u: UNIT[id] || 'rep', sets }));
+    const items = MODES[S.contract.mode].plan[t].map(([id, tg, sets]) => ({ id, t: tg, u: UNIT[id] || 'rep', sets }));
+    if (t === 'rest') items.unshift({ id: 'st', t: 0, spec: '3:00', sets: 1 });
     return { idx: i, items };
   };
   const cnt = (r, it) => (r.c[it.id] || []).filter(Boolean).length;
@@ -413,7 +414,7 @@
     $('bar').style.width = (total ? got / total * 100 : 0) + '%';
 
     $('card').classList.toggle('locked', r.done);
-    const THEME = { pu: 't1', cr: 't2', sq: 't3', sp: 't4', su: 't5', pl: 't6', st: 't3' };
+    const THEME = { pu: 't1', cr: 't2', sq: 't3', sp: 't4', su: 't5', pl: 't6', st: 't3', dd: 't2', bd: 't5', dm: 't1', bg: 't4' };
     $('items').innerHTML = plan.items.map(it => {
       const arr = r.c[it.id] || [];
       const c = cnt(r, it), full = c === it.sets, dis = r.done ? 'disabled' : '';
@@ -502,7 +503,7 @@
     o1: () => { const c = T.c; return `<div class="step">STEP 1 / 3</div><h1>${c.o1t}</h1><p class="sub">${c.o1s}</p>
       ${ui.note ? `<div class="card pv"><div><b>${c.kept}</b></div><div>${c.tot(ui.note.total)}</div><div>${c.bst(ui.note.best)}</div></div>` : ''}
       ${Object.entries(MODES).map(([k, m]) => `<button class="card mode ${ui.mode === k ? 'on' : ''}" style="--c:${m.c}" data-act="mode" data-v="${k}"><div class="mn">${c.mn[k]}</div><div class="mt">${c.mt[k]}</div></button>`).join('')}
-      ${ui.mode ? `<div class="card pv">${['push','legs','core'].map((t, i) => `<div><b>Day ${i + 1}　${T.plans[i + 1]}</b><br>${MODES[ui.mode].plan[t].map(fmt).join('　/　')}</div>`).join('')}<div><b>${c.day4}　${T.plans[4]}</b><br>${c.restTxt}</div></div>` : ''}
+      ${ui.mode ? `<div class="card pv">${['push','legs','core'].map((t, i) => `<div><b>Day ${i + 1}　${T.plans[i + 1]}</b><br>${MODES[ui.mode].plan[t].map(fmt).join('　/　')}</div>`).join('')}<div><b>${c.day4}　${T.plans[4]}</b><br>${c.restTxt}　/　${MODES[ui.mode].plan.rest.map(fmt).join('　/　')}</div></div>` : ''}
       <button class="btn" data-act="to2" ${ui.mode ? '' : 'disabled'}>${c.next}</button>`; },
     o2: () => { const c = T.c; return `<div class="step">STEP 2 / 3</div><h1>${c.o2t}</h1><p class="sub">${c.o2s(c.mn[ui.mode])}</p>
       <div class="chips">${DAYS.map(d => `<button class="chip ${ui.days === d ? 'on' : ''}" data-act="days" data-v="${d}">${d}<small>${c.d.trim()}</small></button>`).join('')}</div>
